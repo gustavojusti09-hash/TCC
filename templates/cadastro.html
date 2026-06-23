@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>CADASTRO</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="static/style.css">
@@ -35,5 +35,63 @@
 </nav>
 
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ AQUI TERMINA O CODIGO DA NAVBAR @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<h1>CADASTRE UM NOVO PRODUTO</h1>
+
+<br>
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ AQUI COMEÇA O CODIGO DA TABELA @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+   <div id="formulariocadastro">
+        <form action="/cadastro_concluido.html" method="POST">
+            <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Nome do item:</span>
+            <input type="text" class="form-control" placeholder="Nome" aria-label="Username" aria-describedby="basic-addon1" name="nome_item">
+            </div>
+
+            <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Quantidade:</span>
+            <input type="text" class="form-control" placeholder="Quantidade" aria-label="Username" aria-describedby="basic-addon1" name="descricao">
+            </div>
+
+            <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Estoque mínimo:</span>
+            <input type="text" class="form-control" placeholder="Estoque Mínimo" aria-label="Username" aria-describedby="basic-addon1" name="preco">
+            </div>
+
+            <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Descrição:</span>
+            <input type="text" class="form-control" placeholder="Descrição" aria-label="Username" aria-describedby="basic-addon1" name="qtde">
+            </div>
+
+            <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Preço:</span>
+            <input type="text" class="form-control" placeholder="Valor R$" aria-label="Username" aria-describedby="basic-addon1" name="foto">
+            </div>
+
+            <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Categoria:</span>
+            <input type="text" class="form-control" placeholder="Categoria" aria-label="Username" aria-describedby="basic-addon1" name="categoria">
+            </div>
+
+            <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Link Foto:</span>
+            <input type="text" class="form-control" placeholder="Link" aria-label="Username" aria-describedby="basic-addon1" name="estoque_min">
+            </div>
+
+
+            <button type="submit" class="btn btn-success">Cadastrar</button>
+        </form>
+    </div>
+
+    <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ AQUI TERMINA O CODIGO DA TABELA @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
 </body>
 </html>

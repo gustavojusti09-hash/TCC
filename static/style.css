@@ -27,3 +27,49 @@ body {
     width: 350px;
     height: auto;
 }
+
+table {
+            width: 60%;
+            border-collapse: collapse; 
+            margin: 20px auto; 
+            font-family: Arial, sans-serif;
+        }
+        th, td {
+            border: 1px solid #333; 
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #ff7300; 
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2; 
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        td:last-child {
+            font-weight: bold;      
+            color: #2E8B57;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            background-color: #ff7300;
+        }
+
+#formulariocadastro{
+    text-align: center;
+    max-width: 600px;
+    position: absolute;
+    left: 780px;
+}
+
+#botaoa {
+  display: block;      /* Transforma em bloco para aceitar margem auto */
+  width: fit-content;  /* Faz o botão ficar do tamanho do texto "Voltar" */
+  margin: 30px auto;   /* Centraliza horizontalmente e dá espaço no topo */
+  padding: 10px 30px;  /* Deixa o botão com um tamanho bonito e confortável */
+}

@@ -2,7 +2,7 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route("/")
 def login():
     return render_template('login.html')
 
@@ -17,6 +17,10 @@ def cadastro():
 @app.route('/movimentacao.html')
 def movimentacao():
     return render_template('movimentacao.html')
+
+@app.route('/cadastroconcluido.html')
+def cadastroconcluido():
+    return render_template('cadastroconcluido.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
