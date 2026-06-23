@@ -73,3 +73,23 @@ table {
   margin: 30px auto;   /* Centraliza horizontalmente e dá espaço no topo */
   padding: 10px 30px;  /* Deixa o botão com um tamanho bonito e confortável */
 }
+
+#movimentacao {
+  border-collapse: collapse; 
+  width: auto;               /* Ocupa apenas o tamanho do texto */
+  margin: 20px auto;         /* O 'auto' nas laterais centraliza a tabela na tela */
+}
+
+/* Mantém os quadradinhos menores */
+#movimentacao th, 
+#movimentacao td {
+  border: 1px solid #333333; 
+  padding: 6px 120px;         
+  font-size: 14px;           
+  text-align: center;        
+}
+
+/* Mantém o destaque do cabeçalho */
+#movimentacao th {
+  background-color: #e85907;
+}
