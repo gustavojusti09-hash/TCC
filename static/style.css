@@ -26,6 +26,7 @@ body {
     right: 250px;
     width: 350px;
     height: auto;
+    color: #ddd;
 }
 
 table {
@@ -68,19 +69,18 @@ table {
 }
 
 #botaoa {
-  display: block;      /* Transforma em bloco para aceitar margem auto */
-  width: fit-content;  /* Faz o botão ficar do tamanho do texto "Voltar" */
-  margin: 30px auto;   /* Centraliza horizontalmente e dá espaço no topo */
-  padding: 10px 30px;  /* Deixa o botão com um tamanho bonito e confortável */
+  display: block;      
+  width: fit-content; 
+  margin: 30px auto;  
+  padding: 10px 30px;  
 }
 
 #movimentacao {
   border-collapse: collapse; 
-  width: auto;               /* Ocupa apenas o tamanho do texto */
-  margin: 20px auto;         /* O 'auto' nas laterais centraliza a tabela na tela */
+  width: auto;              
+  margin: 20px auto;     
 }
 
-/* Mantém os quadradinhos menores */
 #movimentacao th, 
 #movimentacao td {
   border: 1px solid #333333; 
@@ -89,7 +89,6 @@ table {
   text-align: center;        
 }
 
-/* Mantém o destaque do cabeçalho */
 #movimentacao th {
   background-color: #e85907;
 }

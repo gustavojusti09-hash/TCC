@@ -22,7 +22,7 @@ def movimentacao():
 def cadastroconcluido():
     return render_template('cadastroconcluido.html')
 
-@app.route('/teste.hmtl')
+@app.route('/teste.html')
 def teste():
     return render_template('teste.html')
 
