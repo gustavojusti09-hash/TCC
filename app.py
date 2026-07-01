@@ -9,7 +9,21 @@ def login():
 
 @app.route('/home.html')
 def home():
-    return render_template('home.html')
+    banco = mysql.connector.connect(
+        host='localhost',
+        port=3306,
+        user='root',
+        password='',
+        database='senai'
+    )
+
+    cursor = banco.cursor()
+    query = "SELECT * FROM estoque"
+    cursor.execute(query)
+
+    resultado = cursor.fetchall()
+
+    return render_template('home.html', resultado=resultado)
 
 @app.route('/cadastro.html')
 def cadastro():
@@ -19,7 +33,7 @@ def cadastro():
 def movimentacao():
     return render_template('movimentacao.html')
 
-@app.route('/cadastroconcluido.html', methods=['GET', 'POST'])
+@app.route('/cadastroconcluido.html', methods=['POST'])
 def cadastroconcluido():
     nome = request.form.get('nome_item')
     qtde = request.form.get('qtde')
