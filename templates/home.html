@@ -52,8 +52,8 @@
     <th>Estoque Minimo</th>
     <th>Descricao</th>
     <th>Preço</th>
-    <th>Categoria</th>
     <th>Foto</th>
+    <th>Categoria</th>
   </tr>
   {% for item in resultado %}
   <tr>
@@ -62,7 +62,9 @@
     <td>{{item[3]}}</td>
     <td>{{item[4]}}</td>
     <td>{{item[5]}}</td>
-    <td>{{item[6]}}</td>
+
+<td><a href="{{item[6]}}" target="_blank"><img src="{{item[6]}}" alt="{{item[1]}}" style="widht: 50px; height: 50px; object-fit: cover; border-radius: 4px; cursor: pointer;"></a></td>
+
     <td>{{item[7]}}</td>
   </tr>
   {%endfor%}

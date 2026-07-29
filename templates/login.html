@@ -15,19 +15,21 @@
 
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ AQUI COMEÇA O CODIGO DO LOGIN @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
-<form id="formulario" action="/home.html" method="GET">
+<form id="formulario" action="/login" method="POST" >
   <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Usuário  </label>
-    <input text="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <label for="exampleInputEmail1" class="form-label">Usuário</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" name="usuario" required>
   </div>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Senha</label>
-    <input type="password" class="form-control" id="exampleInputPassword1">
+    <input type="password" class="form-control" id="exampleInputPassword1" name="senha" required>
   </div>
   <div class="mb-3 form-check"> 
   </div>
-  <button type="submit" class="btn btn-primary">ENTRAR
-  </button>
+  <button id="b" type="submit" class="btn btn-primary">ENTRAR</button>
+  <br>
+  <br>
+<a id="n" href="/cadastrousuario">Não tem conta? Cadastre-se aqui</a>
 </form>                           
 
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ AQUI TERMINA O CODIGO DO LOGIN @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
