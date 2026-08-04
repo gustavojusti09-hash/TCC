@@ -1,15 +1,13 @@
 body {
-
     background-color: #0047b6 !important;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    overflow-y: auto;
 }
 
 #kaue {
-    
-    height: 100px;
-    width: 100px;
+    height: 945px;
+    width: 1055px;
 }
 
 .logo-senai {
@@ -30,31 +28,34 @@ body {
 }
 
 table {
-            width: 60%;
-            border-collapse: collapse; 
-            margin: 20px auto; 
-            font-family: Arial, sans-serif;
-        }
-        th, td {
-            border: 1px solid #333; 
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #ff7300; 
-            color: white;
-        }
-        tr {
-            background-color: #f2f2f2; 
-        }
+    width: 60%;
+    border-collapse: collapse; 
+    margin: 20px auto; 
+    font-family: Arial, sans-serif;
+}
 
-        h1 {
-            color: #ffffff;
-            text-align: center;
-            background-color: #ff7300;
-        }
+th, td {
+    border: 1px solid #333; 
+    padding: 8px;
+    text-align: center;
+}
 
-#formulariocadastro{
+th {
+    background-color: #ff7300; 
+    color: white;
+}
+
+tr {
+    background-color: #f2f2f2; 
+}
+
+h1 {
+    color: #ffffff;
+    text-align: center;
+    background-color: #ff7300;
+}
+
+#formulariocadastro {
     text-align: center;
     max-width: 600px;
     position: absolute;
@@ -62,33 +63,33 @@ table {
 }
 
 #botaoa {
-  display: block;      
-  width: fit-content; 
-  margin: 30px auto;  
-  padding: 10px 30px;  
+    display: block;      
+    width: fit-content; 
+    margin: 30px auto;  
+    padding: 10px 30px;  
 }
 
 #movimentacao {
-  border-collapse: collapse; 
-  width: auto;              
-  margin: 20px auto;     
+    border-collapse: collapse; 
+    width: auto;              
+    margin: 20px auto;     
 }
 
 #movimentacao th, 
 #movimentacao td {
-  border: 1px solid #333333; 
-  padding: 6px 120px;         
-  font-size: 14px;           
-  text-align: center;        
+    border: 1px solid #333333; 
+    padding: 6px 120px;         
+    font-size: 14px;           
+    text-align: center;        
 }
 
 #movimentacao th {
-  background-color: #e85907;
+    background-color: #e85907;
 }
 
 #n {
     color: #ddd;
-        position: absolute;
+    position: absolute;
     top: 240px;
     right: 50px;
     width: 240px;
@@ -101,7 +102,6 @@ table {
     right: 70px;
     width: 200px;
     height: auto;
-
 }
 
 #formusuario {

@@ -1,31 +1,41 @@
 from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
+import hashlib
 
 app = Flask(__name__)
 
-# Função reutilizável para conexão com o banco
 def conectar_banco():
     return mysql.connector.connect(
         host="localhost",
         port=3306,
         user="root",
-        password="",
+        password="1234",
         database="senai"
     )
+
+def registrar_historico(produto_nome, tipo_acao):
+    banco = conectar_banco()
+    cursor = banco.cursor()
+    query = "INSERT INTO movimentacoes (produto, tipo, data_hora) VALUES (%s, %s, NOW())"
+    cursor.execute(query, (produto_nome, tipo_acao))
+    banco.commit()
+    cursor.close()
+    banco.close()
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    erro = None
     if request.method == 'POST':
         usuario_digitado = request.form['usuario']
         senha_digitada = request.form['senha']
 
+        senha_hash = hashlib.sha256(senha_digitada.encode('utf-8')).hexdigest()
+
         conexao = conectar_banco()
         cursor = conexao.cursor()
-        comando = "SELECT * FROM usuarios WHERE usuario = %s AND senha = %s"
-        cursor.execute(comando, (usuario_digitado, senha_digitada))
 
+        sql = "SELECT * FROM usuarios WHERE usuario = %s AND senha = %s"
+        cursor.execute(sql, (usuario_digitado, senha_hash))
         usuario_encontrado = cursor.fetchone()
 
         cursor.close()
@@ -34,9 +44,32 @@ def login():
         if usuario_encontrado:
             return redirect(url_for('home'))
         else:
-            erro = "Usuário ou senha incorretos! Tente novamente."
+            return render_template('login.html', erro="Usuário ou senha incorretos!")
 
-    return render_template('login.html', erro=erro)
+    return render_template('login.html')
+
+
+@app.route('/cadastrousuario', methods=['GET', 'POST'])
+def cadastrousuario():
+    if request.method == 'POST':
+        usuario_digitado = request.form['usuario']
+        senha_digitada = request.form['senha']
+
+        senha_hash = hashlib.sha256(senha_digitada.encode('utf-8')).hexdigest()
+
+        conexao = conectar_banco()
+        cursor = conexao.cursor()
+
+        comando = "INSERT INTO usuarios (usuario, senha) VALUES (%s, %s)"
+        cursor.execute(comando, (usuario_digitado, senha_hash))
+        conexao.commit()
+        
+        cursor.close()
+        conexao.close()
+        
+        return redirect(url_for('login'))
+
+    return render_template('cadastrousuario.html')
 
 
 @app.route('/home.html')
@@ -60,7 +93,19 @@ def cadastro():
 
 @app.route('/movimentacao.html')
 def movimentacao():
-    return render_template('movimentacao.html')
+    banco = conectar_banco()
+    cursor = banco.cursor()
+    query = """
+        SELECT produto, tipo, DATE_FORMAT(data_hora, '%d/%m/%Y %H:%i:%s') 
+        FROM movimentacoes 
+        ORDER BY id DESC
+    """
+    cursor.execute(query)
+    historico = cursor.fetchall()
+    cursor.close()
+    banco.close()
+
+    return render_template('movimentacao.html', historico=historico)
 
 
 @app.route('/cadastroconcluido.html', methods=['POST'])
@@ -84,6 +129,8 @@ def cadastroconcluido():
     cursor.close()
     banco.close()
 
+    registrar_historico(nome, "Cadastrou novo produto")
+
     return render_template('cadastroconcluido.html')
 
 
@@ -92,25 +139,58 @@ def teste():
     return render_template('teste.html')
 
 
-@app.route('/cadastrousuario', methods=['GET', 'POST'])
-def cadastrousuario():
-    if request.method == 'POST':
-        usuario_digitado = request.form['usuario']
-        senha_digitada = request.form['senha']
+@app.route('/alterar_quantidade', methods=['POST'])
+def alterar_quantidade():
+    id_produto = request.form.get('id_produto')
+    acao = request.form.get('acao')
+    qtd = int(request.form.get('quantidade', 1))
 
-        conexao = conectar_banco()
-        cursor = conexao.cursor()
+    banco = conectar_banco()
+    cursor = banco.cursor()
 
-        comando = "INSERT INTO usuarios (usuario, senha) VALUES (%s, %s)"
-        cursor.execute(comando, (usuario_digitado, senha_digitada))
-        conexao.commit()
-        
-        cursor.close()
-        conexao.close()
-        
-        return "Usuário cadastrado com sucesso!"
+    cursor.execute("SELECT nome FROM estoque WHERE id = %s", (id_produto,))
+    prod = cursor.fetchone()
+    nome_produto = prod[0] if prod else "Produto"
 
-    return render_template('cadastrousuario.html')
+    if acao == 'adicionar':
+        query = "UPDATE estoque SET qtde = qtde + %s WHERE id = %s"
+        tipo_log = f"Entrada de +{qtd} itens"
+    elif acao == 'remover':
+        query = "UPDATE estoque SET qtde = GREATEST(0, qtde - %s) WHERE id = %s"
+        tipo_log = f"Saída de -{qtd} itens"
+
+    cursor.execute(query, (qtd, id_produto))
+    banco.commit()
+
+    cursor.close()
+    banco.close()
+
+    registrar_historico(nome_produto, tipo_log)
+
+    return redirect(url_for('home'))
+
+
+@app.route('/deletar_produto', methods=['POST'])
+def deletar_produto():
+    id_produto = request.form.get('id_produto')
+
+    banco = conectar_banco()
+    cursor = banco.cursor()
+
+    cursor.execute("SELECT nome FROM estoque WHERE id = %s", (id_produto,))
+    prod = cursor.fetchone()
+    nome_produto = prod[0] if prod else "Produto"
+
+    query = "DELETE FROM estoque WHERE id = %s"
+    cursor.execute(query, (id_produto,))
+    banco.commit()
+
+    cursor.close()
+    banco.close()
+
+    registrar_historico(nome_produto, "Excluiu o produto")
+
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':

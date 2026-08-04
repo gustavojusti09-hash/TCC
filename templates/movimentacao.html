@@ -44,15 +44,31 @@
 <br>
 <br>
 
+<h1>HISTÓRICO DE MOVIMENTAÇÃO</h1>
+
+<br>
+<br>
+<br>
+
 <table id="tabela_principal">
-   <tr>
-    <th>Nome</th>
-    <th>Qtde</th>
-    <th>Estoque Minimo</th>
-    <th>Descricao</th>
-    <th>Preço</th>
-    <th>Categoria</th>
-    <th>Foto</th>
-  </tr>
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Ação / Movimentação</th>
+          <th>Data e Hora</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in historico %}
+        <tr>
+          <td>{{ log[0] }}</td>
+          <td>{{ log[1] }}</td>
+          <td>{{ log[2] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+
 </body>
 </html>

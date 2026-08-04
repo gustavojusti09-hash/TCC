@@ -45,8 +45,13 @@
  <br>
  <br>
 
+ <h1>TABELA DO ESTOQUE</h1>
+
+ <br>
+ <br>
+
 <table id="tabela_principal">
-   <tr>
+  <tr>
     <th>Nome</th>
     <th>Qtde</th>
     <th>Estoque Minimo</th>
@@ -54,7 +59,9 @@
     <th>Preço</th>
     <th>Foto</th>
     <th>Categoria</th>
+    <th>Ações</th> 
   </tr>
+
   {% for item in resultado %}
   <tr>
     <td>{{item[1]}}</td>
@@ -62,12 +69,30 @@
     <td>{{item[3]}}</td>
     <td>{{item[4]}}</td>
     <td>{{item[5]}}</td>
-
-<td><a href="{{item[6]}}" target="_blank"><img src="{{item[6]}}" alt="{{item[1]}}" style="widht: 50px; height: 50px; object-fit: cover; border-radius: 4px; cursor: pointer;"></a></td>
-
+    <td>
+      <a href="{{item[6]}}" target="_blank">
+        <img src="{{item[6]}}" alt="{{item[1]}}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 4px;">
+      </a>
+    </td>
     <td>{{item[7]}}</td>
+
+    <td>
+      <div style="display: flex; gap: 5px; align-items: center;">
+        <form action="/alterar_quantidade" method="POST" style="display: flex; gap: 3px;">
+          <input type="hidden" name="id_produto" value="{{item[0]}}">
+          <input type="number" name="quantidade" style="width: 50px;" min="1" value="1" required>
+          <button type="submit" name="acao" value="adicionar" class="btn btn-success btn-sm">+</button>
+          <button type="submit" name="acao" value="remover" class="btn btn-warning btn-sm">-</button>
+        </form>
+
+        <form action="/deletar_produto" method="POST">
+          <input type="hidden" name="id_produto" value="{{item[0]}}">
+          <button type="submit" class="btn btn-outline-danger btn-sm">Excluir</button>
+        </form>
+      </div>
+    </td>
   </tr>
-  {%endfor%}
+  {% endfor %}
 
 </table>
 

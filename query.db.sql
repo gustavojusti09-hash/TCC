@@ -16,8 +16,20 @@ CREATE TABLE estoque (
 CREATE TABLE usuarios (
 	id INT PRIMARY KEY auto_increment,
     usuario VARCHAR(255),
-    senha VARCHAR(255),
-    funcao VARCHAR(10)
+    senha VARCHAR(255)
     );
+    
+    CREATE TABLE movimentacoes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    produto VARCHAR(100) NOT NULL,
+    tipo VARCHAR(50) NOT NULL, 
+    data_hora DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 
 SELECT * FROM estoque;
+
+SELECT * FROM usuarios;
+
+SELECT * FROM movimentacoes;
+
+TRUNCATE TABLE usuarios;
