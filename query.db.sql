@@ -1,4 +1,4 @@
-CREATE DATABASE senai;
+CREATE DATABASE IF NOT EXISTS senai;
 
 USE senai;
 
