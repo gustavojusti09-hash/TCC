@@ -1,3 +1,5 @@
+React
+node_modules
 .git
 .venv
 venv
@@ -7,5 +9,3 @@ __pycache__
 *.pyo
 *.pyd
 .DS_Store
-
-Set-Content -Path .\.dockerignore -Value "React`n.git`n.venv`nvenv`nenv`n__pycache__`n*.pyc`n*.pyo`n*.pyd`n.DS_Store"

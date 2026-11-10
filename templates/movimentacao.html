@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,27 +14,32 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="home.html">HOME   </a>
+    <a class="navbar-brand" href="home.html">HOME</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {% if session.get('tipo') == 'adm' %}
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="cadastro.html">CADASTRO</a>
+          <a class="nav-link" href="cadastro.html">CADASTRO</a>
         </li>
-<li class="nav-item">
-                <a class="nav-link" href="movimentacao.html">MOVIMENTAÇÃO</a>
-            </li>
-             </li>
-<li class="nav-item">
-                <a class="nav-link" href="teste.html">SOBRE</a>
-            </li>
-            <li class="nav-item ms-auto">
-                <a class="btn btn-outline-danger btn-sm" href="/">Sair</a>
-            </li>
-        </ul>
-    </div>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link active" href="movimentacao.html">MOVIMENTAÇÃO</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="teste.html">SOBRE</a>
+        </li>
+      </ul>
+      <div class="d-flex align-items-center ms-auto gap-3">
+        {% if session.get('usuario') %}
+        <span style="color: #495057; font-size: 15px;">
+          Olá, <b>{{ session.get('usuario') }}</b> ({{ 'ADM' if session.get('tipo') == 'adm' else 'Usuário' }})
+        </span>
+        {% endif %}
+        <a class="btn btn-outline-danger btn-sm" href="/logout">Sair</a>
+      </div>
     </div>
   </div>
 </nav>
@@ -68,7 +73,6 @@
         {% endfor %}
       </tbody>
     </table>
-</div>
 
 </body>
 </html>

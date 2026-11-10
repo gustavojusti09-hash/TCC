@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 from flask_cors import CORS
 import mysql.connector
 import hashlib
 
 app = Flask(__name__)
+app.secret_key = "senai_tcc_secret"
 CORS(app)
 
 def conectar_banco():
@@ -36,7 +37,7 @@ def login():
         conexao = conectar_banco()
         cursor = conexao.cursor()
 
-        sql = "SELECT * FROM usuarios WHERE usuario = %s AND senha = %s"
+        sql = "SELECT id, usuario, tipo FROM usuarios WHERE usuario = %s AND senha = %s"
         cursor.execute(sql, (usuario_digitado, senha_hash))
         usuario_encontrado = cursor.fetchone()
 
@@ -44,25 +45,39 @@ def login():
         conexao.close()
 
         if usuario_encontrado:
+            session['id_usuario'] = usuario_encontrado[0]
+            session['usuario'] = usuario_encontrado[1]
+            session['tipo'] = usuario_encontrado[2]  # 'adm' ou 'usuario'
             return redirect(url_for('home'))
         else:
             return render_template('login.html', erro="Usuário ou senha incorretos!")
 
     return render_template('login.html')
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
 @app.route('/cadastrousuario', methods=['GET', 'POST'])
 def cadastrousuario():
     if request.method == 'POST':
         usuario_digitado = request.form['usuario']
         senha_digitada = request.form['senha']
+        tipo_digitado = request.form.get('tipo', 'usuario')
+        senha_mestra = request.form.get('senha_mestra', '')
+
+        # Se tentar criar uma conta de Administrador, valida a senha mestra 'tcc'
+        if tipo_digitado == 'adm' and senha_mestra != 'tcc':
+            return render_template('cadastrousuario.html', erro="Senha mestra incorreta! Apenas administradores autorizados.")
 
         senha_hash = hashlib.sha256(senha_digitada.encode('utf-8')).hexdigest()
 
         conexao = conectar_banco()
         cursor = conexao.cursor()
 
-        comando = "INSERT INTO usuarios (usuario, senha) VALUES (%s, %s)"
-        cursor.execute(comando, (usuario_digitado, senha_hash))
+        comando = "INSERT INTO usuarios (usuario, senha, tipo) VALUES (%s, %s, %s)"
+        cursor.execute(comando, (usuario_digitado, senha_hash, tipo_digitado))
         conexao.commit()
         
         cursor.close()
@@ -83,10 +98,13 @@ def home():
     cursor.close()
     banco.close()
 
-    return render_template('home.html', resultado=resultado)
+    return render_template('home.html', resultado=resultado, tipo=session.get('tipo', 'usuario'))
 
 @app.route('/cadastro.html')
 def cadastro():
+    # Apenas administrador pode acessar a tela de cadastro
+    if session.get('tipo') != 'adm':
+        return redirect(url_for('home'))
     return render_template('cadastro.html')
 
 @app.route('/movimentacao.html')
@@ -107,6 +125,10 @@ def movimentacao():
 
 @app.route('/cadastroconcluido.html', methods=['POST'])
 def cadastroconcluido():
+    # Apenas administrador pode cadastrar produtos
+    if session.get('tipo') != 'adm':
+        return redirect(url_for('home'))
+
     nome = request.form.get('nome_item')
     qtde = request.form.get('qtde')
     estoque_minimo = request.form.get('estoque_minimo')
@@ -136,6 +158,10 @@ def teste():
 
 @app.route('/alterar_quantidade', methods=['POST'])
 def alterar_quantidade():
+    # Apenas administrador pode alterar quantidades
+    if session.get('tipo') != 'adm':
+        return redirect(url_for('home'))
+
     id_produto = request.form.get('id_produto')
     acao = request.form.get('acao')
     qtd = int(request.form.get('quantidade', 1))
@@ -166,6 +192,10 @@ def alterar_quantidade():
 
 @app.route('/deletar_produto', methods=['POST'])
 def deletar_produto():
+    # Apenas administrador pode excluir produtos
+    if session.get('tipo') != 'adm':
+        return redirect(url_for('home'))
+
     id_produto = request.form.get('id_produto')
 
     banco = conectar_banco()
@@ -199,7 +229,7 @@ def api_login():
 
     conexao = conectar_banco()
     cursor = conexao.cursor(dictionary=True)
-    cursor.execute("SELECT id, usuario FROM usuarios WHERE usuario = %s AND senha = %s", (usuario, senha_hash))
+    cursor.execute("SELECT id, usuario, tipo FROM usuarios WHERE usuario = %s AND senha = %s", (usuario, senha_hash))
     usuario_encontrado = cursor.fetchone()
 
     cursor.close()
@@ -214,6 +244,7 @@ def api_cadastrousuario():
     dados = request.get_json() or {}
     usuario = dados.get('usuario')
     senha = dados.get('senha')
+    tipo = dados.get('tipo', 'usuario')
 
     if not usuario or not senha:
         return jsonify({"status": "erro", "mensagem": "Usuário e senha são obrigatórios"}), 400
@@ -222,7 +253,7 @@ def api_cadastrousuario():
 
     conexao = conectar_banco()
     cursor = conexao.cursor()
-    cursor.execute("INSERT INTO usuarios (usuario, senha) VALUES (%s, %s)", (usuario, senha_hash))
+    cursor.execute("INSERT INTO usuarios (usuario, senha, tipo) VALUES (%s, %s, %s)", (usuario, senha_hash, tipo))
     conexao.commit()
 
     cursor.close()
