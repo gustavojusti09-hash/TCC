@@ -67,7 +67,7 @@ def cadastrousuario():
         tipo_digitado = request.form.get('tipo', 'usuario')
         senha_mestra = request.form.get('senha_mestra', '')
 
-        # Se tentar criar uma conta de Administrador, valida a senha mestra 'tcc'
+        # senha mestra = tcc
         if tipo_digitado == 'adm' and senha_mestra != 'tcc':
             return render_template('cadastrousuario.html', erro="Senha mestra incorreta! Apenas administradores autorizados.")
 
@@ -102,7 +102,6 @@ def home():
 
 @app.route('/cadastro.html')
 def cadastro():
-    # Apenas administrador pode acessar a tela de cadastro
     if session.get('tipo') != 'adm':
         return redirect(url_for('home'))
     return render_template('cadastro.html')
@@ -125,7 +124,6 @@ def movimentacao():
 
 @app.route('/cadastroconcluido.html', methods=['POST'])
 def cadastroconcluido():
-    # Apenas administrador pode cadastrar produtos
     if session.get('tipo') != 'adm':
         return redirect(url_for('home'))
 
@@ -158,7 +156,6 @@ def teste():
 
 @app.route('/alterar_quantidade', methods=['POST'])
 def alterar_quantidade():
-    # Apenas administrador pode alterar quantidades
     if session.get('tipo') != 'adm':
         return redirect(url_for('home'))
 
@@ -192,7 +189,6 @@ def alterar_quantidade():
 
 @app.route('/deletar_produto', methods=['POST'])
 def deletar_produto():
-    # Apenas administrador pode excluir produtos
     if session.get('tipo') != 'adm':
         return redirect(url_for('home'))
 

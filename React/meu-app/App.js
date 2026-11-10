@@ -4,7 +4,6 @@ import {
   Image, StyleSheet, Alert, SafeAreaView, StatusBar, ImageBackground
 } from 'react-native';
 
-// ===================== CORES (iguais ao site) =====================
 const AZUL = '#0047b6';
 const LARANJA = '#ff7300';
 
@@ -33,7 +32,6 @@ const movimentacoesIniciais = [
   { id: 2, produto: 'Multímetro Digital', tipo: 'Estoque inicial', data: '09/11/2026 21:00' },
 ];
 
-// ===================== APP =====================
 export default function App() {
   const [tela, setTela] = useState('login');
   const [usuarioLogado, setUsuarioLogado] = useState(null);
@@ -51,7 +49,6 @@ export default function App() {
     );
   }
 
-  // Cadastro de USUÁRIO — acessado pelo link no login
   if (tela === 'cadastrousuario') {
     return (
       <TelaCadastroUsuario
@@ -65,7 +62,6 @@ export default function App() {
     );
   }
 
-  // Cadastro de PRODUTO — acessado pelo ADM via bottom nav
   if (tela === 'cadastroproduto') {
     return (
       <TelaCadastroProduto
@@ -116,7 +112,6 @@ export default function App() {
   return null;
 }
 
-// ===================== BARRA SUPERIOR (só nome do usuário + sair) =====================
 function TopBar({ usuario, onSair }) {
   const isAdm = usuario?.tipo === 'adm';
   return (
@@ -132,7 +127,6 @@ function TopBar({ usuario, onSair }) {
   );
 }
 
-// ===================== BARRA INFERIOR DE NAVEGAÇÃO (padrão mobile) =====================
 function BottomNav({ telaAtual, onNavegar, isAdm }) {
   const abas = [
     { key: 'home', label: 'Home' },
@@ -159,7 +153,6 @@ function BottomNav({ telaAtual, onNavegar, isAdm }) {
   );
 }
 
-// ===================== TELA LOGIN =====================
 function TelaLogin({ usuarios, onLogin, onCadastro }) {
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
@@ -177,27 +170,22 @@ function TelaLogin({ usuarios, onLogin, onCadastro }) {
     <View style={{ flex: 1, backgroundColor: AZUL }}>
       <StatusBar backgroundColor={AZUL} barStyle="light-content" />
 
-      {/* Imagem de fundo com transparência */}
       <Image
         source={{ uri: 'https://images.unsplash.com/photo-1581092334651-ddf19c0f4a9e?w=600' }}
         style={s.bgImagem}
         resizeMode="cover"
       />
 
-      {/* Camada azul por cima da imagem */}
       <View style={s.bgOverlay} />
 
-      {/* Conteúdo — alinhado ao topo com padding */}
       <ScrollView contentContainerStyle={s.loginContainer}>
 
-        {/* Logo SENAI centralizada no topo */}
         <Image
           source={require('./assets/senailogo.png')}
           style={s.logoSenai}
           resizeMode="contain"
         />
 
-        {/* Formulário */}
         <View style={s.loginBox}>
           <Text style={s.labelBranco}>Usuário</Text>
           <TextInput
@@ -232,7 +220,6 @@ function TelaLogin({ usuarios, onLogin, onCadastro }) {
   );
 }
 
-// ===================== TELA CADASTRO DE USUÁRIO (via link no login) =====================
 function TelaCadastroUsuario({ onCadastrar, onVoltar }) {
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
@@ -324,7 +311,6 @@ function TelaCadastroUsuario({ onCadastrar, onVoltar }) {
   );
 }
 
-// ===================== TELA CADASTRO DE PRODUTO (ADM via bottom nav) =====================
 function TelaCadastroProduto({ onCadastrar, usuario, onNavegar, onSair }) {
   const isAdm = usuario?.tipo === 'adm';
   const [nome, setNome] = useState('');
@@ -397,7 +383,6 @@ function TelaCadastroProduto({ onCadastrar, usuario, onNavegar, onSair }) {
   );
 }
 
-// ===================== TELA HOME =====================
 function TelaHome({ usuario, produtos, setProdutos, movimentacoes, setMovimentacoes, onNavegar, onSair }) {
   const isAdm = usuario?.tipo === 'adm';
 
@@ -450,7 +435,6 @@ function TelaHome({ usuario, produtos, setProdutos, movimentacoes, setMovimentac
 
         <ScrollView horizontal showsHorizontalScrollIndicator>
           <View>
-            {/* Cabeçalho laranja */}
             <View style={s.trHead}>
               <Text style={[s.th, { width: 120 }]}>Nome</Text>
               <Text style={[s.th, { width: 55 }]}>Qtde</Text>
@@ -497,7 +481,6 @@ function TelaHome({ usuario, produtos, setProdutos, movimentacoes, setMovimentac
   );
 }
 
-// ===================== TELA MOVIMENTAÇÃO =====================
 function TelaMovimentacao({ usuario, movimentacoes, onNavegar, onSair }) {
   const isAdm = usuario?.tipo === 'adm';
   return (
@@ -531,7 +514,6 @@ function TelaMovimentacao({ usuario, movimentacoes, onNavegar, onSair }) {
   );
 }
 
-// ===================== ESTILOS =====================
 const s = StyleSheet.create({
 
   tela: {
@@ -549,13 +531,13 @@ const s = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(0, 71, 182, 0.80)', // azul com 80% de opacidade
+    backgroundColor: 'rgba(0, 71, 182, 0.80)', 
   },
   loginContainer: {
     flexGrow: 1,
     alignItems: 'center',
     padding: 24,
-    paddingTop: 60,   // começa do topo, não do meio
+    paddingTop: 60,  
   },
   logoSenai: {
     width: 200,
@@ -597,7 +579,6 @@ const s = StyleSheet.create({
     textDecorationLine: 'underline',
   },
 
-  // --- Top bar ---
   topBar: {
     backgroundColor: '#f8f9fa',
     flexDirection: 'row',
@@ -626,7 +607,6 @@ const s = StyleSheet.create({
     fontSize: 14,
   },
 
-  // --- Bottom nav ---
   bottomNav: {
     flexDirection: 'row',
     backgroundColor: '#f8f9fa',
@@ -657,7 +637,6 @@ const s = StyleSheet.create({
     borderRadius: 2,
   },
 
-  // --- Título das páginas ---
   tituloPagina: {
     backgroundColor: LARANJA,
     color: '#fff',
@@ -669,7 +648,6 @@ const s = StyleSheet.create({
     borderRadius: 4,
   },
 
-  // --- Formulário ---
   paginaContainer: {
     padding: 24,
     paddingTop: 32,
@@ -771,7 +749,6 @@ const s = StyleSheet.create({
     borderRadius: 4,
   },
 
-  // --- Botões da tabela ---
   btnVerde: {
     backgroundColor: '#198754',
     borderRadius: 4,
